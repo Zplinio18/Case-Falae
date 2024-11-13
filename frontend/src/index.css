@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.animationDown{
+    animation: down 1s ease;
+}
+
+@keyframes down {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.invisible-scrollbar {
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+  }
+  
+.invisible-scrollbar::-webkit-scrollbar {
+    display: none; /* Para navegadores baseados em WebKit */
+}
