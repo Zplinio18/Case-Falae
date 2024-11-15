@@ -1,14 +1,27 @@
 import Logo from '../assets/images/logo.png';
-import { useState } from 'react';
+import { useContext,useState } from 'react';
 import { FaShoppingCart } from "react-icons/fa";
 import { IoMenu, IoClose } from "react-icons/io5";
 import DefaultButton from './buttons/defaultButton';
+import LoginPopup from './loginPopup';
+import { AnimatePresence } from 'framer-motion';
+import { UserContext } from '../context/AppProvider';
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const [logOpen, setLogOpen] = useState(false);
+  const { user } = useContext(UserContext)!;
 
   return (
-    <nav className="shadow-md w-full fixed top-0 left-0 z-[10000] animationDown">
+    <nav className="shadow-md w-full fixed top-0 left-0 z-[99] animationDown">
+        <AnimatePresence>
+            {
+                logOpen && 
+                    <LoginPopup
+                        onClose={() => setLogOpen(false)}
+                    /> 
+            }
+        </AnimatePresence>
         <div className="md:flex items-center justify-between bg-mainly-200 py-2 md:px-10 px-7">
             <div className="flex gap-4 items-center text-4xl font-sigmar text-mainly-300">
             <img src={Logo} alt="Logo" className="h-12" />
@@ -27,16 +40,28 @@ export default function Nav() {
                 open ? 'top-14 opacity-100' : 'top-[-490px]'
             } md:opacity-100 opacity-0`}
             >
-            <li className=" md:mb-0 mb-4 md:my-0 my-7">
-                <DefaultButton
-                    text="Entrar"
-                />
-            </li>
-            <a href="/carrinho">
-                <FaShoppingCart
-                    className={`text-base-100 text-2xl cursor-pointer hover:text-mainly-300 duration-500 md:block hidden ${open ? 'opacity-0' : 'opacity-100'}`}
-                />
-            </a>
+            
+            {
+                user ? (
+                    <div className="flex gap-8 font-poppins">
+                        <h1 className="font-semibold">Olá, {user.name}!</h1>
+                        <a href="/carrinho">
+                            <FaShoppingCart
+                                className={`text-base-100 text-2xl cursor-pointer hover:text-mainly-300 duration-500 md:block hidden ${open ? 'opacity-0' : 'opacity-100'}`}
+                            />
+                        </a>
+                        
+                    </div>
+                ) : (
+                    <li className=" md:mb-0 mb-4 md:my-0 my-7">
+                        <DefaultButton
+                            text="Entrar"
+                            onClick={() => setLogOpen(true)}
+                        />
+                    </li>
+                )
+            }
+            
             
             </ul>
         </div>

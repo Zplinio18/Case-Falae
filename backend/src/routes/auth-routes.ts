@@ -42,7 +42,7 @@ router.post('/login', async (req: Request, res: Response) => {
         return res.status(400).json({ message: 'senha inválida' });
     }
 
-    return res.status(200).json(user);
+    return res.status(200).json({ name: user.name, email: user.email, address: user.address, phone: user.phone, id: user.id, isAdmin: user.isAdmin });
 })
 
 

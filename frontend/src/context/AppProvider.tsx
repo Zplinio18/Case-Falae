@@ -1,11 +1,11 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
 
 type User = {
-    id: string;
     name: string;
     email: string;
     address: string;
     phone: string;
+    id: string;
     isAdmin: boolean;
 };
 

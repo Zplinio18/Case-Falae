@@ -53,7 +53,6 @@ export default function CardapioPage() {
             style={{ backgroundImage: `url(${background})` }}
         >
             <Nav />
-
             <section className="pt-20 flex-1 flex">
                 <div className="flex flex-col md:w-[75%] w-full transition-all duration-500">
                     <h1 className="text-4xl md:text-start text-center md:pl-10 pt-4 text-base-400 font-sigmar pb-2">
