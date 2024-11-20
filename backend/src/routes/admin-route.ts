@@ -20,7 +20,7 @@ router.post('/create', async (req: Request, res: Response) => {
         }
     });
 
-    return res.status(201).send("adm criado").json(user);
+    return res.status(201).json(user);
 })
 
 

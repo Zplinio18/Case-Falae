@@ -29,6 +29,64 @@
     animation: fadeIn 1s ease;
 }
 
+.rotate {
+    animation: rotate 1s linear infinite;
+}
+
+.surge {
+    animation: surge 1s ease;
+}
+
+.slide {
+    animation: slideIn 1s ease;
+}
+ .slideLeft {
+    animation: slideInTop 1s ease;
+}
+
+@keyframes slideInTop {
+    0% {
+        transform: translateY(2%);
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateX(-2%);
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes surge {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 @keyframes fadeIn {
     0% {
         opacity: 0;

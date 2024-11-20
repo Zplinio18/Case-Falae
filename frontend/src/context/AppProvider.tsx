@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useState, ReactNode } from "react";
 
 type User = {
     name: string;
@@ -23,14 +23,12 @@ type UserContextType = {
     user: User | null;
     addUser: (newUser: User) => void;
     removeUser: () => void;
-    isLoading: boolean;
-    errorMessage: string;
 };
 
 type CartContextType = {
     cartItems: Product[];
     addToCart: (product: Product) => void;
-    removeFromCart: (productId: number) => void;
+    removeFromCart: (productName: string) => void;
     clearCart: () => void;
     getTotalPrice: () => string;
 };
@@ -43,17 +41,15 @@ type AppProviderProps = {
 };
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null);
-    const [cartItems, setCartItems] = useState<Product[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
+    const [user, setUser] = useState<User | null>(() => {
         const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-        setIsLoading(false);
-    }, []);
+        return storedUser ? JSON.parse(storedUser) : null;
+    });
+
+    const [cartItems, setCartItems] = useState<Product[]>(() => {
+        const storedCart = localStorage.getItem("cartItems");
+        return storedCart ? JSON.parse(storedCart) : [];
+    });
 
     const addUser = (newUser: User) => {
         setUser(newUser);
@@ -66,26 +62,50 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     };
 
     const addToCart = (product: Product) => {
-        setCartItems((prevItems) => [...prevItems, product]);
+        setCartItems((prevItems) => {
+            const existingProductIndex = prevItems.findIndex(
+                (item) => item.name === product.name
+            );
+    
+            if (existingProductIndex !== -1) {
+                const updatedItems = [...prevItems];
+                updatedItems[existingProductIndex].quantity = product.quantity;
+                localStorage.setItem("cartItems", JSON.stringify(updatedItems));
+                return updatedItems;
+            } else {
+                const updatedItems = [...prevItems, product];
+                localStorage.setItem("cartItems", JSON.stringify(updatedItems));
+                return updatedItems;
+            }
+        });
     };
 
-    const removeFromCart = (productId: number) => {
-        setCartItems((prevItems) => prevItems.filter((item) => item.id !== productId));
+    const removeFromCart = (productName: string) => {
+        setCartItems((prevItems) => {
+            const updatedItems = prevItems.filter((item) => item.name !== productName);
+            localStorage.setItem("cartItems", JSON.stringify(updatedItems));
+            return updatedItems;
+        });
     };
 
     const clearCart = () => {
         setCartItems([]);
+        localStorage.removeItem("cartItems");
     };
 
     const getTotalPrice = () => {
-        return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+        return cartItems
+            .reduce((total, item) => total + item.price * item.quantity, 0)
+            .toFixed(2);
     };
 
     return (
-        <UserContext.Provider value={{ user, addUser, removeUser, isLoading, errorMessage: "" }}>
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, getTotalPrice }}>
-            {children}
-        </CartContext.Provider>
+        <UserContext.Provider value={{ user, addUser, removeUser }}>
+            <CartContext.Provider
+                value={{ cartItems, addToCart, removeFromCart, clearCart, getTotalPrice }}
+            >
+                {children}
+            </CartContext.Provider>
         </UserContext.Provider>
     );
 };

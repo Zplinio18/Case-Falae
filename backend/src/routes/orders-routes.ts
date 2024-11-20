@@ -7,11 +7,24 @@ import { verifyPermition } from '../middleware/verify-permition';
 
 const router = Router();
 
-router.get('/', async (req: Request, res: Response) => {
+router.get('/', verifyPermition, async (req: Request, res: Response) => {
     const orders = await prisma.order.findMany({
-        include: { items: true }
-    });
+        include: { 
+            items: {
+                select: {
+                    quantity: true,
+                    product: {
+                        select: {
+                            name: true,
+                            price: true
+                        }
+                    }
+                }
+            }
+         }
 
+    });
+    
     return res.status(200).json(orders);
 })
 
@@ -55,6 +68,33 @@ router.post('/', async (req: Request, res: Response) => {
     return res.status(201).json(order);
 })
 
+router.get('/user/:userId', async (req: Request, res: Response) => {
+    const { userId } = req.params;
+
+    const orders = await prisma.order.findMany({
+        where: { userId },
+        include: {
+            items: {
+            select: {
+                quantity: true,
+                product: {
+                    select: {
+                        name: true,
+                        price: true
+                    }
+                }
+            }
+        }
+    }
+    });
+
+    if (orders.length === 0) {
+        return res.status(404).json({ message: 'Nenhum pedido encontrado' });
+    }
+
+    return res.status(200).json(orders);
+});
+
 
 router.get('/:id', async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -64,7 +104,7 @@ router.get('/:id', async (req: Request, res: Response) => {
     });
 
     if (!orderexists) {
-        return res.status(404).json({ message: 'Order not found' });
+        return res.status(404).json({ message: 'Pedido nao encontrado' });
     }
 
     const order = await prisma.order.findUnique({
@@ -92,19 +132,24 @@ router.put('/:id', verifyPermition, async (req: Request, res: Response) => {
     const { status } : Status = req.body as Status;
 
     if (!status) {
-        return res.status(400).json({ error: 'Status is required.' });
+        return res.status(400).json({ error: 'Status eh necessario' });
     }
 
-    try {
-        const updatedOrder = await prisma.order.update({
-            where: { id: parseInt(id) },
-            data: { status }
-        });
+    const orderexists = await prisma.order.findUnique({
+        where: { id: parseInt(id) }
+    });
 
-        return res.status(200).json(updatedOrder);
-    } catch (error) {
-        return res.status(404).json({ error: 'Order not found.' });
+    if(!orderexists) {
+        return res.status(404).json({ error: 'Pedido nao encontrado' });
     }
+
+    const updatedOrder = await prisma.order.update({
+        where: { id: parseInt(id) },
+        data: { status }
+    });
+
+    return res.status(200).json(updatedOrder);
+
 });
 
 

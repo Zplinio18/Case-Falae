@@ -11,6 +11,17 @@ router.get('/', async (req: Request, res: Response) => {
 })
 
 
+// Essa rota foi criada para facilitar o preenchimento do cardapio para melhor visualização das funcionalidades do app
+router.post('/bulk', async (req: Request, res: Response) => {
+    const products: Product[] = req.body;
+
+    const createdProducts = await prisma.$transaction(
+        products.map(product => prisma.product.create({ data: product }))
+    );
+
+    return res.status(201).json(createdProducts);
+});
+
 
 router.post('/', verifyPermition, async (req: Request, res: Response) => {
     const { name, category, price, description, imageUrl } : Product = req.body as Product;

@@ -1,9 +1,11 @@
 import React, { useContext, useState } from 'react';
-import DefaultButton from './buttons/defaultButton';
-import { api } from '../api/axios';
-import { UserContext } from '../context/AppProvider';
+import DefaultButton from '../buttons/defaultButton';
+import { api } from '../../api/axios';
+import { UserContext } from '../../context/AppProvider';
 import { useNavigate } from 'react-router-dom'; 
 import { motion } from 'framer-motion';
+import AlertLoading from '../alerts/AlertLoading';
+import RegisterPopup from './registerPopup';
 
 interface LoginPopupProps {
   onClose: () => void;
@@ -14,8 +16,9 @@ export default function LoginPopup ({ onClose } : LoginPopupProps) {
 
 
     const [formData, setFormData] = useState({ email: '', password: '' });
-    // const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState(false);
+    const [registerPopup, setRegisterPopup] = useState(false);
     const { addUser } = useContext(UserContext)!;
     const navigate = useNavigate();
 
@@ -28,7 +31,7 @@ export default function LoginPopup ({ onClose } : LoginPopupProps) {
     };
 
     const handleSubmit = () => {
-        // setIsLoading(true);
+        setIsLoading(true);
 
         api.post('auth/login', {
             email: formData.email,
@@ -39,18 +42,23 @@ export default function LoginPopup ({ onClose } : LoginPopupProps) {
             console.log(user);
             addUser(user);
             onClose();
-            alert("Login efetuado com sucesso!");
             setTimeout(() => {
                 navigate("/")
             },2500)
         }).catch(() => {
             setErrorMessage(true);
         }).finally(() => {
-            // setIsLoading(false);
+            setIsLoading(false);
         });
-
-            
     };
+
+    const handleRegister = () => {
+        setRegisterPopup(true);
+    }
+
+    const handleCloseRegister = () => {
+        setRegisterPopup(false);
+    }
 
     return (
         <motion.div
@@ -60,13 +68,23 @@ export default function LoginPopup ({ onClose } : LoginPopupProps) {
             transition={{ type: 'spring', duration: 1.2 }} 
             className="absolute flex justify-center items-center w-full h-screen z-[100] backdrop-blur-sm"
         >
+        {
+            isLoading && (
+                <AlertLoading/>
+            )
+        }
+        {
+            registerPopup && (
+                <RegisterPopup/>
+            )
+        }
         <div className="form w-96 rounded-xl shadow-xl overflow-hidden snap-start shrink-0 pb-5 bg-mainly-200 h-96 flex flex-col items-center justify-center gap-3 transition-all duration-300">
             <div className="capitalize w-full px-8 gap-4 h-full flex flex-col justify-between">
             <p className="text-3xl text-mainly-300 font-sigmar text-center pt-4">Entrar na conta</p>
             {errorMessage && <p className="w-full bg-red-600/50 text-center rounded-md py-1 text-base-100 border-red-700 border-2 fadeIn">Email ou senha incorretos</p>}
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                 <div className="flex flex-col items-start w-full">
-                <label htmlFor="email" className="text-lg font-poppins text-mainly-400 font-semibold">
+                <label className="text-lg font-poppins text-mainly-400 font-semibold">
                     Email
                 </label>
                 <input
@@ -80,8 +98,8 @@ export default function LoginPopup ({ onClose } : LoginPopupProps) {
                 </div>
 
                 <div className="flex flex-col items-start w-full">
-                <label htmlFor="password" className="text-lg font-poppins text-mainly-400 font-semibold">
-                    Password
+                <label className="text-lg font-poppins text-mainly-400 font-semibold">
+                    Senha
                 </label>
                 <input
                     type="password"
@@ -99,6 +117,7 @@ export default function LoginPopup ({ onClose } : LoginPopupProps) {
                 <button
                     type="button"
                     className="text-mainly-300 underline hover:text-base-100 transition-all duration-300"
+                    onClick={handleRegister}
                 >
                     Registre-se
                 </button>

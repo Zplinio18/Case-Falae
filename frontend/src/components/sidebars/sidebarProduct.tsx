@@ -1,9 +1,14 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import DefaultButton from './buttons/defaultButton';
+import DefaultButton from '../buttons/defaultButton';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useContext } from 'react';
+import { UserContext, CartContext } from '../../context/AppProvider';
 
 type Product = {
+    id: number;
     name: string;
     category: string;
     price: number;
@@ -18,12 +23,15 @@ type SidebarProductDetailsProps = {
 
 export default function SidebarProductDetails({ selectedProduct, handleCloseSidebar }: SidebarProductDetailsProps) {
     const [quantity, setQuantity] = useState(1);
+    const { user } = useContext(UserContext)!;
+    const { addToCart } = useContext(CartContext)!;
+    const totalPrice = (selectedProduct.price * quantity).toFixed(2);
 
     useEffect(() => {
         setQuantity(1);
     }, [selectedProduct]);
 
-    const totalPrice = (selectedProduct.price * quantity).toFixed(2);
+    
 
     const increaseQuantity = () => setQuantity(quantity + 1);
     const decreaseQuantity = () => {
@@ -35,7 +43,17 @@ export default function SidebarProductDetails({ selectedProduct, handleCloseSide
             ...selectedProduct,
             quantity
         };
-        console.log(product);
+
+        if(!user){
+            toast.error("Você precisa estar logado", {
+                autoClose: 1500
+            })
+        }else{
+            toast.success("Produto adicionado ao carrinho", {
+                autoClose: 1500
+            })
+            addToCart(product);
+        }
     };
 
     return (
@@ -45,8 +63,9 @@ export default function SidebarProductDetails({ selectedProduct, handleCloseSide
             exit={{ x: '120%' }}
             transition={{ type: 'spring', duration: 1.2 }}
             className="md:relative fixed w-full h-[45rem] md:h-auto md:w-[23%] p-4"
-        >
+        >   
             <aside className="h-full w-full bg-mainly-200 rounded-2xl shadow-2xl shadow-gray-500 flex flex-col items-center">
+                <ToastContainer className="absolute"/>
                 <img src={selectedProduct.imageUrl} alt={selectedProduct.name} className="w-full h-52 border-b-4 border-mainly-300 rounded-t-2xl" />
                 <h2 className="pt-4 text-3xl font-sigmar text-base-400">{selectedProduct.name}</h2>
                 <p className="text-md font-poppins font-semibold">({selectedProduct.category})</p>
