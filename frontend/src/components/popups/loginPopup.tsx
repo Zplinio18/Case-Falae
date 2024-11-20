@@ -3,7 +3,7 @@ import DefaultButton from '../buttons/defaultButton';
 import { api } from '../../api/axios';
 import { UserContext } from '../../context/AppProvider';
 import { useNavigate } from 'react-router-dom'; 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import AlertLoading from '../alerts/AlertLoading';
 import RegisterPopup from './registerPopup';
 
@@ -57,6 +57,7 @@ export default function LoginPopup ({ onClose } : LoginPopupProps) {
     }
 
     const handleCloseRegister = () => {
+        onClose();
         setRegisterPopup(false);
     }
 
@@ -73,11 +74,15 @@ export default function LoginPopup ({ onClose } : LoginPopupProps) {
                 <AlertLoading/>
             )
         }
-        {
-            registerPopup && (
-                <RegisterPopup/>
-            )
-        }
+        <AnimatePresence>
+            {
+                registerPopup && (
+                    <RegisterPopup 
+                        onClose={handleCloseRegister}
+                    />
+                )
+            }
+        </AnimatePresence>
         <div className="form w-96 rounded-xl shadow-xl overflow-hidden snap-start shrink-0 pb-5 bg-mainly-200 h-96 flex flex-col items-center justify-center gap-3 transition-all duration-300">
             <div className="capitalize w-full px-8 gap-4 h-full flex flex-col justify-between">
             <p className="text-3xl text-mainly-300 font-sigmar text-center pt-4">Entrar na conta</p>

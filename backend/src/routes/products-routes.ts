@@ -83,7 +83,7 @@ router.put('/:id', verifyPermition, async (req: Request, res: Response) => {
 
 
 
-router.delete('/:id', async (req: Request, res: Response) => {
+router.delete('/:id', verifyPermition, async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const existingProduct = await prisma.product.findUnique({
@@ -93,10 +93,15 @@ router.delete('/:id', async (req: Request, res: Response) => {
     if (!existingProduct) {
         return res.status(404).json({ message: 'Product not found' });
     }
+    
+    await prisma.orderItem.deleteMany({
+        where: { productId: parseInt(id) }
+    });
 
     await prisma.product.delete({
         where: { id: parseInt(id) }
     });
+    
 
     return res.status(204).send();
 })

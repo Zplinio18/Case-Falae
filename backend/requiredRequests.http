@@ -1,0 +1,77 @@
+# Estas requisições são usadas para criar um usuário admin e adicionar produtos ao banco de dados.
+# A primeira requisição é obrigatória pois nao é possivel criar um admin pelo frontend por questoes de segurança.
+
+POST http://localhost:5000/api/admin/create
+Content-type: application/json
+
+{
+    "name": "Admin",
+    "email": "admin@email.com",
+    "password": "admin123"
+}
+
+###
+
+POST http://localhost:5000/api/products/bulk
+Content-type: application/json
+
+[
+    {
+        "name": "Salada Caesar",
+        "category": "Entrada",
+        "price": 15.99,
+        "description": "Salada clássica com alface, croutons e molho Caesar.",
+        "imageUrl": "https://static.itdg.com.br/images/640-440/3f0787cb6db2f0db10269fc45bd8abee/shutterstock-1078415420.jpg"
+    },
+    {
+        "name": "Sopa de Abóbora",
+        "category": "Entrada",
+        "price": 12.99,
+        "description": "Sopa cremosa de abóbora com temperos especiais.",
+        "imageUrl": "https://www.minhareceita.com.br/app/uploads/2019/09/sopadeabobora650.jpg"
+    },
+    {
+        "name": "Filé à Parmegiana",
+        "category": "Prato Principal",
+        "price": 39.99,
+        "description": "Filé de carne empanado com molho de tomate e queijo.",
+        "imageUrl": "https://claudia.abril.com.br/wp-content/uploads/2020/02/receita-bife-a-parmegiana.jpg?quality=70&strip=info&w=620&h=372&crop=1?crop=1&resize=1212,909"
+    },
+    {
+        "name": "Spaghetti Carbonara",
+        "category": "Prato Principal",
+        "price": 34.99,
+        "description": "Massa tradicional italiana com molho de ovos, queijo e bacon.",
+        "imageUrl": "https://cdn.urbano.com.br/uploads/espaguete-a-carbonara-800.jpg"
+    },
+    {
+        "name": "Pudim de Leite",
+        "category": "Sobremesa",
+        "price": 9.99,
+        "description": "Sobremesa clássica brasileira feita com leite condensado e caramelo.",
+        "imageUrl": "https://static.itdg.com.br/images/640-440/72ede3bd1eeadcc3abad84a304a8e1ab/shutterstock-1178179939.jpg"
+    },
+    {
+        "name": "Torta de Limão",
+        "category": "Sobremesa",
+        "price": 12.99,
+        "description": "Torta doce com base crocante e creme de limão.",
+        "imageUrl": "https://catracalivre.com.br/wp-content/uploads/2022/03/img-8977.jpg"
+    },
+    {
+        "name": "Suco de Laranja",
+        "category": "Bebida",
+        "price": 7.99,
+        "description": "Suco natural de laranja fresquinha.",
+        "imageUrl": "https://www.grupobiocentro.com/tim.php?src=uploads/images/2020/04/por-que-tomar-suco-de-laranja-1587473641.png&w=960"
+    },
+    {
+        "name": "Café Expresso",
+        "category": "Bebida",
+        "price": 4.99,
+        "description": "Café forte e aromático preparado na hora.",
+        "imageUrl": "https://conscienciacafe.com.br/wp-content/uploads/2023/09/cafe-espresso-maquina-1024x683.jpg"
+    }
+]
+
+###

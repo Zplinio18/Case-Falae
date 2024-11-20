@@ -7,26 +7,40 @@ import { verifyPermition } from '../middleware/verify-permition';
 
 const router = Router();
 
-router.get('/', verifyPermition, async (req: Request, res: Response) => {
-    const orders = await prisma.order.findMany({
-        include: { 
-            items: {
-                select: {
-                    quantity: true,
-                    product: {
-                        select: {
-                            name: true,
-                            price: true
-                        }
-                    }
-                }
-            }
-         }
 
+router.post('/allOrders', verifyPermition, async (req: Request, res: Response) => {
+    const orders = await prisma.order.findMany({
+      where: {
+        status: {
+          not: 'Entregue',
+        },
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            address: true,
+          },
+        },
+        items: {
+          select: {
+            quantity: true,
+            product: {
+              select: {
+                name: true,
+                price: true,
+              },
+            },
+          },
+        },
+      },
     });
-    
+  
     return res.status(200).json(orders);
-})
+  });
+  
+      
+  
 
   
 router.post('/', async (req: Request, res: Response) => {

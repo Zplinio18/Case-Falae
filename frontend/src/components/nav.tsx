@@ -27,7 +27,7 @@ export default function Nav({page}: {page: string}) {
                     /> 
             }
         </AnimatePresence>
-        <div className="md:flex items-center justify-between bg-mainly-200 py-2 md:px-10 px-7">
+        <div className={`md:flex items-center justify-between ${page === 'Admin' ? 'bg-gray-950 shadow-md shadow-mainly-300': 'bg-mainly-200' } py-2 md:px-10 px-7`}>
             <div className="flex gap-4 items-center text-4xl font-sigmar text-mainly-300">
             <img src={Logo} alt="Logo" className="h-12" />
             <h1>Come Aê</h1>
@@ -45,7 +45,7 @@ export default function Nav({page}: {page: string}) {
                 </div>
             </div>
             <ul
-            className={`md:flex md:items-center md:gap-2 bg-mainly-200 md:pb-0 absolute md:static md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 transition-all duration-500 ease-in ${
+            className={`md:flex md:items-center md:gap-2 md:pb-0 absolute md:static md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 transition-all duration-500 ease-in ${
                 cardOpen ? 'top-14 opacity-100' : 'top-[-490px]'
             } md:opacity-100 opacity-0`}
             >
@@ -63,14 +63,16 @@ export default function Nav({page}: {page: string}) {
                             )
                         }
                         
-                        <article className="font-semibold flex gap-2 md:py-0 py-6 text-base-400 cursor-pointer" onClick={() => {profileControl ? setProfileControl(false) : setProfileControl(true)}}>
+                        <article className={`font-semibold flex gap-2 md:py-0 py-6 ${ page === 'Admin' ? 'text-mainly-200' : 'text-base-400'} cursor-pointer`} onClick={() => {profileControl ? setProfileControl(false) : setProfileControl(true)}}>
                             Olá, {user.name}!
 
                             {
                                 profileControl ? (
                                     <div>
                                         <IoMdArrowDropup className="text-xl"/>
-                                        <ProfileSideBar />
+                                        <ProfileSideBar 
+                                            page={page}
+                                        />
                                     </div>
                                 )
                                 : (
