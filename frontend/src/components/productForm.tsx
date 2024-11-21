@@ -70,9 +70,10 @@ export default function ProductForm ({formData,handleInputChange,handleSubmit,is
             </div>
             <button
                 type="submit"
-                className="bg-mainly-300 text-gray-950/65 placeholder:text-zinc-400 font-sigmar text-2xl py-2 px-4 rounded hover:scale-95 duration-300 mb-8"
+                className={` ${isLoading ? 'bg-zinc-400 hover:scale-100 ': 'bg-mainly-300' } text-gray-950/65 placeholder:text-zinc-400 font-sigmar text-2xl py-2 px-4 rounded hover:scale-95 duration-300 mb-8`}
+                disabled={isLoading}
             >
-                {isEditing ? 'Atualizar Produto' : isLoading ? 'Carregando...' : 'Criar Produto'}
+                {isLoading ? 'Carregando...' : isEditing ? 'Atualizar Produto' : 'Criar Produto'}
             </button>
         </form>
     );

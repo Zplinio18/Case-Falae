@@ -95,7 +95,7 @@ Neste projeto priorizei:
 - Segurança em rotas com middlewares e hashing de senhas.
 - Tratamento rigoroso em tipagem de variaveis, tanto no back-end quanto no front-end
 - Organização de arquivos e componentes
-- Otimização de fluxo com uso do LocalStorage
+- Otimização de fluxo com uso do AppProvider e LocalStorage
 - Interface responsiva para mobile
 - Interface amigável e intuitiva
 

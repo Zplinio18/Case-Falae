@@ -55,7 +55,7 @@ export default function OrdersManager() {
     };
 
     return (
-        <section className="w-full p-8">
+        <section className="w-full p-8 overflow-auto invisible-scrollbar">
             {
                 orders.length === 0 ? (
                     <h1 className="text-2xl text-mainly-300 font-sigmar">Você ainda não tem pedidos hoje : (</h1>

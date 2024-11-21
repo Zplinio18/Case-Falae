@@ -6,7 +6,7 @@ import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io"
 import DefaultButton from './buttons/defaultButton';
 import LoginPopup from './popups/loginPopup';
 import { AnimatePresence } from 'framer-motion';
-import { UserContext } from '../context/AppProvider';
+import { UserContext, CartContext } from '../context/AppProvider';
 import ProfileSideBar from './sidebars/sideBarProfile';
 
 
@@ -15,6 +15,7 @@ export default function Nav({page}: {page: string}) {
     const [logOpen, setLogOpen] = useState(false);
     const [profileControl, setProfileControl] = useState(false);
     const { user } = useContext(UserContext)!;
+    const { cartItems } = useContext(CartContext)!;
 
 
     return (
@@ -34,12 +35,19 @@ export default function Nav({page}: {page: string}) {
                 </div>
                 <div className="text-3xl flex items-center gap-3 hover:text-4xl text-neutral-100 absolute right-8 top-6 cursor-pointer md:hidden transition-all duration-500">
                     {
-                        user && page !== 'Carrinho' &&
-                        <a href="/carrinho">
-                            <FaShoppingCart
-                                className={`text-base-100 text-2xl cursor-pointer hover:text-mainly-300 duration-300 ${cardOpen ? 'hidden' : 'block'}`}
-                            />
-                        </a>
+                        user && page !== 'Carrinho' && (
+                            <a href="/carrinho">
+                                <span className="flex items-center gap-1">
+                                    <FaShoppingCart className="text-base-100 text-2xl cursor-pointer hover:text-mainly-300 duration-500 md:block" />
+                                    {
+                                        cartItems.length > 0 && (
+                                            <p className="pt-2 text-base-100 font-poppins font-bold  h-4 text-sm">{cartItems.length}</p>
+                                        )
+                                    }
+                                </span>
+                            </a>
+                        )
+                        
                         
                     }
                     
@@ -48,7 +56,7 @@ export default function Nav({page}: {page: string}) {
                     </div>
                 </div>
                 <ul
-                className={`md:flex md:items-center md:gap-2 md:pb-0 absolute md:static md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 transition-all duration-500 ease-in ${
+                className={`md:flex md:items-center md:gap-2 md:pb-0 absolute md:static md:z-auto ${ page == 'Admin' ? 'bg-gray-950' : 'bg-mainly-200'} z-[-1] left-0 w-full md:w-auto md:pl-0 transition-all duration-500 ease-in ${
                     cardOpen ? 'top-14 opacity-100' : 'top-[-490px]'
                 } md:opacity-100 opacity-0`}
                 >
@@ -59,9 +67,14 @@ export default function Nav({page}: {page: string}) {
                             {
                                 page !== 'Carrinho' && (
                                     <a href="/carrinho">
-                                        <FaShoppingCart
-                                            className={`text-base-100 text-2xl cursor-pointer hover:text-mainly-300 duration-500 md:block hidden ${cardOpen ? 'opacity-0' : 'opacity-100'}`}
-                                        />
+                                        <span className="flex items-center gap-1">
+                                            <FaShoppingCart className="text-base-100 text-2xl cursor-pointer hover:text-mainly-300 duration-500 md:block hidden" />
+                                            {
+                                                cartItems.length > 0 && (
+                                                    <p className="pt-2 text-base-100 font-poppins font-bold  h-4 text-sm md:block hidden">{cartItems.length}</p>
+                                                )
+                                            }
+                                        </span>
                                     </a>
                                 )
                             }
