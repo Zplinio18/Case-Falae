@@ -62,19 +62,19 @@ export default function SidebarProductDetails({ selectedProduct, handleCloseSide
             animate={{ x: 0 }}
             exit={{ x: '120%' }}
             transition={{ type: 'spring', duration: 1.2 }}
-            className="md:relative fixed w-full h-[45rem] md:h-auto md:w-[23%] p-4"
+            className="md:relative h-screen fixed w-full md:h-auto md:w-[23%] p-4"
         >   
-            <aside className="h-full w-full bg-mainly-200 rounded-2xl shadow-2xl shadow-gray-500 flex flex-col items-center">
+            <aside className="w-full md:h-full bg-mainly-200 rounded-2xl shadow-2xl shadow-gray-500 flex flex-col items-center">
                 <ToastContainer className="absolute"/>
-                <img src={selectedProduct.imageUrl} alt={selectedProduct.name} className="w-full h-52 border-b-4 border-mainly-300 rounded-t-2xl" />
-                <h2 className="pt-4 text-3xl font-sigmar text-base-400">{selectedProduct.name}</h2>
+                <img src={selectedProduct.imageUrl} alt={selectedProduct.name} className="w-full h-48 border-b-4 border-mainly-300 rounded-t-2xl" />
+                <h2 className="pt-4 text-2xl font-sigmar text-base-400">{selectedProduct.name}</h2>
                 <p className="text-md font-poppins font-semibold">({selectedProduct.category})</p>
                 <div className="w-full flex flex-col justify-between h-full">
                     <div>
-                        <p className="text-lg text-center mt-4 px-6 font-poppins font-medium text-mainly-400">
+                        <p className="text-md text-center mt-4 px-6 font-poppins font-medium text-mainly-400">
                             {selectedProduct.description}
                         </p>
-                        <h1 className="font-sigmar text-support-100 border-y-2 text-center py-4 px-4 text-4xl border-mainly-300 mt-4">
+                        <h1 className="font-sigmar text-support-100 border-y-2 text-center py-2 px-4 text-4xl border-mainly-300 mt-4">
                             R$ {totalPrice}
                         </h1>
                     </div>

@@ -8,7 +8,7 @@ import AlertLoading from '../alerts/AlertLoading';
 import RegisterPopup from './registerPopup';
 
 interface LoginPopupProps {
-  onClose: () => void;
+    onClose: () => void;
 }
 
 

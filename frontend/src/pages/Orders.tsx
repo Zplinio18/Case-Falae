@@ -6,10 +6,13 @@ import background from '../assets/images/background.png';
 import { FaStickyNote } from "react-icons/fa";
 import { IoLeaf } from "react-icons/io5";
 import CardOrder from '../components/cards/cardOrder';
+import { useNavigate } from 'react-router-dom';
 
-export default function Pedidos() {
+export default function Orders() {
     const [orders, setOrders] = useState([]);
     const { user } = useContext(UserContext)!;
+    const navigate = useNavigate();
+
 
     const fetchOrders = useCallback(() => {
         api.get(`/orders/user/${user?.id}`)
@@ -22,12 +25,16 @@ export default function Pedidos() {
     }, [user]);
 
     useEffect(() => {
-        fetchOrders();
+        if(!user){
+            navigate("/erro");
+        }else{
+            fetchOrders();
+        }
     }, [fetchOrders]);
 
     return (
         <main
-            className="flex transition-all duration-500 bg-base-100 md:h-screen md:overflow-hidden"
+            className="flex transition-all duration-500 bg-base-100 md:h-screen min-h-screen md:overflow-hidden"
             style={{ backgroundImage: `url(${background})` }}
         >
             <Nav page="Pedidos" />
@@ -56,7 +63,7 @@ export default function Pedidos() {
                             </div>
                         </div>
                     </section>
-                    )
+                )
             }
            
         </main>

@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 export default function AlertLoading() {
 
     return (
-        
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -17,6 +16,5 @@ export default function AlertLoading() {
                 <h1>Carregando...</h1>
             </article>
         </motion.div>
-        
     )
 }

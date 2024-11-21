@@ -42,7 +42,7 @@ export default function CardResume({id, name, category, price, description, imag
     }, [quantity]);
 
     return (
-        <div className="slide border-y-2 border-base-300 flex md:flex-row flex-col justify-between mb-4 bg-base-200/30 backdrop-blur-sm backdrop-opacity-30">
+        <article className="slide border-y-2 border-base-300 flex md:flex-row flex-col justify-between mb-4 bg-base-200/30 backdrop-blur-sm backdrop-opacity-30">
             <div className="flex">
                 <img src={imageUrl} alt="" className="w-40 rounded-e-xl hidden md:block" />
                 <div className="flex flex-col gap-4 px-4 pb-8 pt-3">
@@ -70,6 +70,6 @@ export default function CardResume({id, name, category, price, description, imag
                 </div>
                 <p className="text-2xl font-bold font-poppins text-support-100 px-2">R$ {(price * actualQuantity).toFixed(2)}</p>
             </div>
-        </div>
+        </article>
     );
 }

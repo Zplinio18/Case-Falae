@@ -20,6 +20,7 @@ export default function ProductsManager() {
     const [products, setProducts] = useState<Product[]>([]);
     const [formData, setFormData] = useState<Product>({name: '', category: '', price: 0, description: '', imageUrl: '',});
     const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const { user } = useContext(UserContext)!;
 
     const fetchProducts = useCallback(() => {
@@ -54,15 +55,22 @@ export default function ProductsManager() {
             });
         }else{
             if (isEditing && formData.id) {
+                setIsLoading(true);
+
                 api.put(`/products/${formData.id}`, {...formData, adminId: user?.id}).then(() => {   
                     fetchProducts();
                     setFormData({ name: '', category: '', price: 0, description: '', imageUrl: '' });
                     setIsEditing(false);;
+                }).finally(() => {
+                    setIsLoading(false);
                 });
             } else {
+                setIsLoading(true);
                 api.post('/products/', {...formData, adminId: user?.id}).then(() => {
                     fetchProducts();
                     setFormData({ name: '', category: '', price: 0, description: '', imageUrl: '' });
+                }).finally(() => {
+                    setIsLoading(false);
                 });
             }
         }
@@ -75,7 +83,6 @@ export default function ProductsManager() {
     };
 
     const handleDelete = async (id: number) => {
-
         api.delete(`/products/${id}`, { data: { adminId: user?.id } })
         .then(() =>{
             fetchProducts();
@@ -88,7 +95,7 @@ export default function ProductsManager() {
 
     useEffect(() => {
         fetchProducts();
-    }, [fetchProducts]);
+    }, [ fetchProducts ]);
 
     return (
         <div className="p-8 flex flex-col md:flex-row justify-between gap-8 md:overflow-hidden overflow-auto">
@@ -98,6 +105,7 @@ export default function ProductsManager() {
             handleInputChange={handleInputChange}
             handleSubmit={handleSubmit}
             isEditing={isEditing}
+            isLoading={isLoading}
         />
         <ul className="md:overflow-y-auto invisible-scrollbar flex-1 gap-4 flex flex-col py-4">
             {products.map((product) => (

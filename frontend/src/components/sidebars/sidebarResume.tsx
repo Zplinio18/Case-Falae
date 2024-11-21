@@ -43,7 +43,7 @@ export default function sidebarResume() {
     }
 
     return (
-        <article className="slideLeft md:h-screen md:w-[25%] w-full border-l-2 border-base-300 flex justify-between flex-col md:gap-0 gap-8">
+        <article className="slideLeft md:h-screen md:w-[25%] w-full md:border-l-2 border-base-300 flex justify-between flex-col md:gap-0 gap-8">
             {
                 isLoading && <AlertLoading />
             }

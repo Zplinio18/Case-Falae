@@ -19,7 +19,7 @@
 .invisible-scrollbar {
     scrollbar-width: none; 
     -ms-overflow-style: none; 
-  }
+}
   
 .invisible-scrollbar::-webkit-scrollbar {
     display: none; /* Para navegadores baseados em WebKit */

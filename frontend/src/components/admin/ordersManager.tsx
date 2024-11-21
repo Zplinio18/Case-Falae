@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useCallback } from 'react';
 import { api } from '../../api/axios';
 import { UserContext } from '../../context/AppProvider';
 import CardManagerOrder from '../cards/cardManagerOrder';
@@ -25,31 +25,33 @@ export default function OrdersManager() {
     const [orders, setOrders] = useState<Order[]>([]);
     const { user } = useContext(UserContext)!;
 
+    const fetchOrders = useCallback(() => {
+        api.post('/orders/allOrders', { adminId: user?.id })
+            .then((response) => {
+                setOrders(response.data);
+            })
+            .catch((error) => {
+                console.error('Erro ao buscar pedidos:', error);
+            });
+    }, [ user ]); 
+
+
     useEffect(() => {
-        const fetchOrders = async () => {
-        try {
-            const response = await api.post('/orders/allOrders', { adminId: user?.id });
-            setOrders(response.data);
-        } catch (error) {
-            console.error('Erro ao buscar pedidos:', error);
-        } finally {
-        }
-        };
-
         fetchOrders();
-    }, []);
+    }, [ user ]);
 
-    const updateStatus = async (orderId: number, status: string) => {
-        try {
-        const response = await api.put(`orders/${orderId}`, { status, adminId: user?.id });
-        setOrders((prevOrders) =>
-            prevOrders.map((order) =>
-            order.id === orderId ? { ...order, status: response.data.status } : order
-            )
-        );
-        } catch (error) {
-        console.error('Erro ao atualizar status:', error);
-        }
+
+    const updateStatus = (orderId: number, status: string) => {
+        api.put(`orders/${orderId}`, { status, adminId: user?.id })
+            .then((response) => {
+                setOrders((prevOrders) =>
+                    prevOrders.map((order) =>
+                    order.id === orderId ? { ...order, status: response.data.status } : order
+                )
+            );
+            }).catch((error) => {
+                console.error('Erro ao atualizar status:', error);
+            });
     };
 
     return (
@@ -68,8 +70,7 @@ export default function OrdersManager() {
                         ))}
                     </div>
                 )
-            }
-            
+            }  
         </section>
     );
 }

@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { FaCircleCheck } from "react-icons/fa6";
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +20,7 @@ export default function SuccessPopup() {
 
     return(
         <div
-            className="fadeIn absolute top-0 left-0 w-full h-screen flex justify-center items-center bg-slate-800/20 z-[1000] overflow-hidden">
+            className="fadeIn fixed top-0 left-0 w-full h-screen flex justify-center items-center bg-slate-800/20 z-[1000] overflow-hidden">
             <article className="surge px-8 bg-base-200 rounded-xl flex py-8 text-support-100 flex-col items-center gap-4 text-xl border-2 font-poppins border-support-100 justify-center">
                 <FaCircleCheck className="text-6xl "/>
                 <h1 className="text-center font-bold">Pedido Realizado!

@@ -2,20 +2,23 @@ import Nav from "../components/nav";
 import background from "../assets/images/background.png";
 import { FaShoppingCart } from "react-icons/fa";
 import CardResume from "../components/cards/cardResume";
-import { CartContext } from '../context/AppProvider';
+import { CartContext, UserContext } from '../context/AppProvider';
 import { useContext, useEffect } from "react";
 import SidebarResume from "../components/sidebars/sidebarResume";
 import { BsCartXFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
-export default function Carrinho() {
+export default function Cart() {
 
     const { cartItems } = useContext(CartContext)!;
+    const { user } = useContext(UserContext)!;
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(cartItems);
-    }, [cartItems]);
+        if (!user) {
+            navigate("/erro");
+        }
+    }, []);
 
     return (
         <main

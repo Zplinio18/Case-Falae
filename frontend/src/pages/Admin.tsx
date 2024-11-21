@@ -40,10 +40,10 @@ export default function Admin() {
             />
             <section className="pt-20 flex w-full">
                 <div className="flex flex-col w-full">
-                    <h1 className="text-4xl w-full text-center pt-4 text-mainly-300 font-sigmar pb-2 flex gap-2 justify-center">
+                    <h1 className="text-4xl w-full text-center text-mainly-300 font-sigmar pb-2 flex gap-2 justify-center">
                         Administrar
                     </h1>
-                    <div className="flex w-full justify-center gap-8 pt-6 pb-4">
+                    <div className="flex w-full justify-center gap-8 pt-4">
                         <button 
                         className={`font-poppins ${isOrdersOpen ? 'text-slate-800 bg-mainly-300' : 'text-mainly-300 bg-transparent' } font-bold rounded-xl border-2 border-mainly-300 duration-300 hover:bg-mainly-300  hover:text-slate-800 py-2 px-6`}
                         onClick={handleOpenOrders}

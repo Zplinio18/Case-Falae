@@ -71,20 +71,33 @@ Nesta aplicação você é capaz de simular como é o fluxo de funcionamento de 
 
 ### Usuário comum:
 
-Ao registrar-se no restaurante você é capaz de montar um carrinho de compras com os produtos de seu interesse e acompanhar o pedido até a chegada do mesmo.
+Ao registrar-se no restaurante você é capaz de montar um carrinho de compras com os produtos de seu interesse e acompanhar o pedido até a chegada do mesmo. Resumidamente os endpoints são:
+
+- Acesso à produtos -    `GET/api/products/`
+- Registro de usuario -   `POST/api/auth/register`
+- Login de usuario -   `POST/api/auth/login`
+- Realização de pedidos  -  `POST/api/auth/login`
+- Acompanhamento de pedidos -   `GET/api/orders/:id`
 
 ### Administrador do restaurante:
 
-Possui todas as funcionalidades do usuario comum porém ele tem algo a mais. Acesso a tela de administrador na rota /admin, e alem disso ele possui um Id que passa pelo midleware de autorização de algumas rotas como: Criação de produtos, atualização de status do pedido, dentre outros.
+Possui todas as funcionalidades do usuario comum porém ele tem algo a mais. Acesso a tela de administrador na rota /admin, e alem disso ele possui um Id que passa pelo midleware de autorização de rotas, elas são:
+
+- Criação de produtos - `POST/api/products/`
+- Atualização de produtos - `PUT/api/products/:id`
+- Exclusão de produtos - `DELETE/api/products/:id`
+- Acesso a todos os pedidos - `POST/api/orders/allOrders`
+- Mudança de status do pedido - `PUT/api/orders/:id`
 
 ## Diferenciais do Projeto
 
 Neste projeto priorizei:
-- Organização de pequenos componentes 
-- Otimização de fluxo com uso do LocalStorage
-- Segurança em rotas
-- Interface amigável e intuitiva
+- Segurança em rotas com middlewares e hashing de senhas.
 - Tratamento rigoroso em tipagem de variaveis, tanto no back-end quanto no front-end
+- Organização de arquivos e componentes
+- Otimização de fluxo com uso do LocalStorage
+- Interface responsiva para mobile
+- Interface amigável e intuitiva
 
 ## Ideias a serem implementadas futuramente 
 
