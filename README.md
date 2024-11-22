@@ -7,7 +7,7 @@ Nesta documentação está o passo a passo de como configurar o projeto para uma
 
 ## Configurando o servidor back-end e banco de dados
 
-O projeto foi programado utilizando PrismaORM e MySQL. Depois de instalar e configurar um banco de dados para o projeto no MySQL em sua maquina, siga os seguintes passos:
+O projeto foi programado utilizando PrismaORM e MySQL. Depois de instalar e configurar um banco de dados para o projeto no MySQL em sua maquina ou conectar-se à uma VM já configurada, siga os seguintes passos:
 
 - Crie um arquivo .env na pasta "backend" e coloque sua URL de conexao ao banco de dados: 
 
@@ -36,7 +36,7 @@ O projeto foi programado utilizando PrismaORM e MySQL. Depois de instalar e conf
 ```
 
 
-<p><strong>O QUE FAZER ANTES DE SEGUIR ADIANTE :</strong></p>
+<p><strong>FAÇA ISSO ANTES DE SEGUIR ADIANTE!!</strong></p>
 
 No arquivo `requiredRequests.http` existe uma requisição para a criação do admin que você pode fazer através do próprio arquivo com a extensão RESTCLIENT, com Postman ou outra plataforma de envio de requisições.
 
@@ -67,7 +67,7 @@ E pronto! Se você seguiu os passos corretamente o projeto estará rodando no en
 
 ## O que você pode fazer nessa aplicação?
 
-Nesta aplicação você é capaz de simular como é o fluxo de funcionamento de um restaurante virtual, nele você tem duas entidades principais: 
+Nesta aplicação você é capaz de simular como é o fluxo de funcionamento de um restaurante virtual, nele você tem duas entidades principais (recomendável ver o arquivo `schema.prisma` para a visualização de todos os modelos e seus atributos): 
 
 ### Usuário comum:
 
@@ -92,14 +92,15 @@ Possui todas as funcionalidades do usuario comum porém ele tem algo a mais. Ace
 ## Diferenciais do Projeto
 
 Neste projeto priorizei:
-- Segurança em rotas com middlewares e hashing de senhas.
+- Segurança em rotas com middlewares e hashing de senhas
+- Otimização de fluxo com uso do AppProvider e LocalStorage
 - Tratamento rigoroso em tipagem de variaveis, tanto no back-end quanto no front-end
 - Organização de arquivos e componentes
-- Otimização de fluxo com uso do AppProvider e LocalStorage
 - Interface responsiva para mobile
 - Interface amigável e intuitiva
 
-## Ideias a serem implementadas futuramente 
+## Ideias que ficaram no papel
 
+- Organização de tipagem e requests nos componentes do frontend (cleancode)
 - Aumento de segurança com tokentização de usuário (JWT)
 - Tela de atualização de informações do usuário
